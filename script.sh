@@ -1,8 +1,8 @@
-browser_app_name="Safari"
-key="(ASCII character 29)" # 右矢印キー
-page=800
-ptslp=0.3
-npslp=1.0
+browser_app_name="Chrome"
+key="key code 124" # 右矢印キー
+page=587
+ptslp=0.1
+npslp=0.2
 
 # 指定範囲を取得
 
@@ -26,24 +26,28 @@ h=`getH`
 
 # スクリーンショットを撮影
 
-mkdir .photos
+mkdir -p .photos
 cd .photos
 
-for i in {1..$page}
-do
-    screencapture -R $x,$y,$w,$h -x $i.png -t png
+pad_width=${#page}
+
+for ((i=1; i<=page; i++)); do
+    file_name=$(printf "%0*d.png" "$pad_width" "$i")
+    screencapture -R $x,$y,$w,$h -x "$file_name" -t png
     sleep $ptslp
-    osascript -e 'tell application "'$browser_app_name'" to activate' -e 'tell application "System Events" to keystroke '$key
+    osascript -e 'tell application "'$browser_app_name'" to activate' -e 'tell application "System Events" to key code 124'
     sleep $npslp
 done
 
 # PNGをPDFに変換
 
-sips -s format pdf *.png 1>/dev/null 2>/dev/null
+for png in *.png; do
+    sips -s format pdf "$png" --out "${png%.png}.pdf" 1>/dev/null 2>/dev/null
+done
 
 # PDFを結合
 
-pdfunite {1..$page}.png ../output.pdf
+pdfunite *.pdf ../output.pdf
 
 # PNGファイルを削除
 
