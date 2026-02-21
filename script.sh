@@ -1,11 +1,11 @@
-browser_app_name="Chrome"
-key="key code 124" # 右矢印キー
-page=587
-ptslp=0.1
-npslp=0.2
+browser_app_name="Chrome" # スクリーンショットを撮影するブラウザアプリ。chromeしか動作確認してない。
+key="key code 124" # 右矢印キーのkey code。基本は124で問題ないはず。
+ptslp=0.1 # ページ遷移後の待機時間。ページの読み込みが遅い場合は長めに設定する。
+npslp=0.2 # スクリーンショット撮影後の待機時間。ページ遷移のアニメーションがある場合は長めに設定する。
+
+# 以下改変不要 
 
 # 指定範囲を取得
-
 getX() {
     /usr/libexec/PlistBuddy -c "print :last-selection:X" ~/Library/Preferences/com.apple.screencapture.plist
 }
